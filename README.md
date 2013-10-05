@@ -3,7 +3,7 @@ Fractal Bit Shadows
 
 Create fractal patterns using JavaScript. This library uses [BitShadowMachine](https://github.com/foldi/Bit-Shadow-Machine) to render all objects as CSS box shadows. All formulas are based on [Keith Peters](http://www.bit-101.com/blog/) book ['Playing With Chaos'](http://www.amazon.com/Playing-Chaos-Programming-Attractors-ebook/dp/B00FA9CX2Y/ref=sr_1_1?ie=UTF8&qid=1381004423&sr=8-1&keywords=playing+with+chaos).
 
-Find examples in the 'public' folder.
+Find examples in the 'public' folder or at http://foldi.github.io/Fractal-Bit-Shadows.
 
 Examples
 ======
