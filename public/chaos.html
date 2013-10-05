@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fractal Bit Shadows</title>
+    <link rel="stylesheet" href="css/BitShadowMachine.min.css" />
+    <script src='scripts/BitShadowMachine.min.js' type="text/javascript"></script>
+    <script src='scripts/FractalBitShadows.min.js' type="text/javascript"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      var palette = new BitShadowMachine.ColorPalette();
+      palette.addColor({
+        min: 12,
+        max: 24,
+        startColor: [248, 215, 173],
+        endColor: [230, 186, 131]
+      }).addColor({
+        min: 12,
+        max: 24,
+        startColor: [244, 192, 157],
+        endColor: [218, 149, 103]
+      }).addColor({
+        min: 12,
+        max: 24,
+        startColor: [255, 243, 216],
+        endColor: [230, 210, 167]
+      }).addColor({
+        min: 12,
+        max: 24,
+        startColor: [250, 219, 142],
+        endColor: [222, 182, 84]
+      }).addColor({
+        min: 12,
+        max: 24,
+        startColor: [252, 221, 205],
+        endColor: [219, 164, 134]
+      });
+
+      var offset = 0.3;
+
+      var angles = [
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+      ];
+
+      var chaos = new FractalBitShadows.Chaos({
+        depth: 9,
+        getAngles: function() {
+          return angles;
+        },
+        blur: 0,
+        colorMode: 'hsla',
+        getDist: function(pt) {
+          return pt.scale * Math.random() * 6 + 1;
+        },
+        palette: palette
+      });
+      chaos.render();
+    </script>
+  </body>
+</html>
