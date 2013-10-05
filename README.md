@@ -64,7 +64,7 @@ to 'hsla' (hue, saturation, lightness, opacity) for a monochromatic rendering.
 
 For more variation, add create a color palette and randomly set the distance of your iterations.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
