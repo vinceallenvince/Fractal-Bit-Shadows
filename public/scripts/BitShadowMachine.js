@@ -1,8 +1,8 @@
-/*! BitShadowMachine v2.0.1 - 2013-09-30 08:09:04
- *  Vince Allen
- *  Brooklyn, NY
- *  vince@vinceallen.com
- *  @vinceallenvince
+/*! BitShadowMachine v2.0.1 - 2013-09-30 08:09:04 
+ *  Vince Allen 
+ *  Brooklyn, NY 
+ *  vince@vinceallen.com 
+ *  @vinceallenvince 
  *  License: MIT */
 
 var BitShadowMachine = {}, exports = BitShadowMachine;
@@ -1267,7 +1267,7 @@ System._update = function() {
   for (i = records.length - 1; i >= 0; i -= 1) {
     record = records[i];
     if (record.world && record.location && record.opacity && !(record instanceof exports.World)) {
-
+      
       shadows = buffers[record.world.id];
 
       if (record.world.colorMode === 'rgba' && record.color) {
