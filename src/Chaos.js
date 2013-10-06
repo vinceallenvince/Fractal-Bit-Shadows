@@ -4,7 +4,7 @@
  * @requires BitShadowMachine
  *
  * @param {Object} [opt_options=] A map of initial properties.
- * @param {Object} [opt_options.world = Chaos.createDefaultWorld()] A BitShadowMachine world.
+ * @param {Object} [opt_options.world = Chaos._createDefaultWorld()] A BitShadowMachine world.
  * @param {number} [opt_options.resolution = 2] The BitShadowMachine world's resolution in pixels.
  * @param {number} [opt_options.borderRadius = 100] The BitShadowMachine world's borderRadius percentage. Note: limited browser support.
  * @param {string} [opt_options.colorMode = 'rgba'] The BitShadowMachine world's color mode. Possible values: 'rgba', 'hsla'
@@ -14,6 +14,7 @@
  * @param {number} [opt_options.backgroundHue = 0] The BitShadowMachine world's hue. Requires colorMode = 'hsla'.
  * @param {number} [opt_options.backgroundSaturation = 0] The BitShadowMachine world's saturation. Requires colorMode = 'hsla'.
  * @param {number} [opt_options.backgroundLightness = 0] The BitShadowMachine world's lightness. Requires colorMode = 'hsla'.
+ * @param {Object} [opt_options.palette = Chaos._createDefaultPalette()] The BitShadowMachine world's color palette.
  */
 function Chaos(opt_options) {
 
@@ -60,6 +61,38 @@ function Chaos(opt_options) {
       this.angleOffset + Math.PI * 4 / 3
     ];
   };
+
+  this.maxDepth = options.maxDepth || 10;
+
+  //
+
+  var me = this;
+
+  Chaos.addEvent(document, 'keyup', function(e) {
+    switch (e.keyCode) {
+      case 38: // arrow up
+        me.resolution++;
+        break;
+      case 40: // arrow down
+        if (me.resolution - 1 > 0) {
+          me.resolution--;
+        }
+        break;
+      case 37: // arrow left
+        if (me.depth - 1 > 0) {
+          me.depth--;
+        }
+        break;
+      case 39: // arrow right
+        if (me.depth + 1 < me.maxDepth) {
+          me.depth++;
+        }
+        break;
+    }
+    BitShadowMachine.System._destroySystem();
+    me.render();
+  });
+
 }
 
 /**
@@ -116,7 +149,7 @@ Chaos._createDefaultWorld = function() {
  */
 Chaos.prototype.render = function() {
 
-  var me = this;
+  var me = this, Modernizr = Modernizr || { boxshadow: true, rgba: true, hsla: true };
 
   var worldA = new BitShadowMachine.World(this.world, {
     width: this.backgroundWidth,
@@ -152,7 +185,7 @@ Chaos.prototype.render = function() {
 
     Chaos._iterate.call(me, this, initPoint, me.depth - 1);
 
-  }, worldA);
+  }, worldA, Modernizr);
 };
 
 /**
@@ -204,6 +237,24 @@ Chaos._iterate = function(system, initPoint, depth) {
     if (depth > 0) {
       Chaos._iterate.call(this, system, newPoint, depth - 1);
     }
+  }
+};
+
+/**
+ * Adds an event listener to a DOM element.
+ *
+ * @function _addEvent
+ * @memberof System
+ * @private
+ * @param {Object} target The element to receive the event listener.
+ * @param {string} eventType The event type.
+ * @param {function} The function to run when the event is triggered.
+ */
+Chaos.addEvent = function(target, eventType, handler) {
+  if (target.addEventListener) { // W3C
+    target.addEventListener(eventType, handler, false);
+  } else if (target.attachEvent) { // IE
+    target.attachEvent("on" + eventType, handler);
   }
 };
 

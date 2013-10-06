@@ -1,4 +1,4 @@
-/*! BitShadowMachine v2.0.2 - 2013-10-06 10:10:28 
+/*! BitShadowMachine v2.0.1 - 2013-09-30 08:09:04 
  *  Vince Allen 
  *  Brooklyn, NY 
  *  vince@vinceallen.com 
@@ -1258,11 +1258,16 @@ System._update = function() {
 
   // draw
 
+  // loop thru and reset buffers
+  /*for (i = worlds.length - 1; i >= 0; i -= 1) {
+    buffers[worlds[i].id] = '';
+  }*/
+
   // loop thru records and build box shadows
   for (i = records.length - 1; i >= 0; i -= 1) {
     record = records[i];
     if (record.world && record.location && record.opacity && !(record instanceof exports.World)) {
-
+      
       shadows = buffers[record.world.id];
 
       if (record.world.colorMode === 'rgba' && record.color) {
@@ -1292,21 +1297,9 @@ System._update = function() {
     console.timeEnd('render');
   }
 
-  if (System.totalFrames > -1) {
-    System.frameCompleteCallback();
-  }
 
   System.clock++;
   window.requestAnimFrame(System._update);
-};
-
-/**
- * Called if System.totalFrames > -1 and exceeds System.clock.
- */
-System.frameCompleteCallback = function() {
-  if (console) {
-    console.log('Rendered ' + System.clock + ' frame.');
-  }
 };
 
 /**
@@ -1397,12 +1390,9 @@ System._saveData = function(index, record) {
       var val = record[i];
       if (val instanceof Vector) { // we want to copy the scalar values out of the Vector
         val = {
-          x: record[i].x.toFixed(2),
-          y: record[i].y.toFixed(2)
+          x: record[i].x,
+          y: record[i].y
         };
-      }
-      if (typeof val === 'number') {
-        val = val.toFixed(2);
       }
       System.recordedData[System.recordedData.length - 1].items[index][i] = val;
     }
@@ -1501,15 +1491,13 @@ System._destroyAllWorlds = function() {
   for (i = items.length - 1; i >= 0; i--) {
     item = items[i];
     if (item.name === 'World') {
-      var container = item.el.parentNode;
-      container.parentNode.removeChild(container);
+      item.el.parentNode.removeChild(item.el);
       items.splice(i, 1);
     }
   }
   this._worlds = {
     lookup: {},
-    list: [],
-    buffers: {}
+    list: []
   };
 };
 
